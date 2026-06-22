@@ -1,7 +1,5 @@
 # Distributed Task Queue & Analytics System
 
-**Senior Node.js Machine Test Submission**
-
 ## Overview
 
 High-throughput backend service built with **Node.js + TypeScript** that handles transaction ingestion, asynchronous background processing using BullMQ, and optimized cached analytics reporting.
