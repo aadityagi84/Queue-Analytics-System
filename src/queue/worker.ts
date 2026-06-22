@@ -18,6 +18,16 @@ const worker = new Worker(
         return;
       }
       await new Promise((resolve) => setTimeout(resolve, 500));
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      if (!user) {
+        throw new Error(`User ${userId} not found`);
+      }
+
+      if (user.walletBalance < amount) {
+        throw new Error(`Insufficient balance for user ${userId}`);
+      }
       await prisma.transaction.create({
         data: {
           id,
@@ -27,7 +37,16 @@ const worker = new Worker(
           timestamp: new Date(),
         },
       });
-
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          walletBalance: {
+            decrement: amount,
+          },
+        },
+      });
       console.log(
         ` Successfully processed transaction ${id} for user ${userId}`,
       );
