@@ -14,7 +14,7 @@ interface AnalyticsSummary {
 }
 
 const CACHE_KEY = "analytics:summary";
-const CACHE_TTL = 2; // seconds
+const CACHE_TTL = 30; // second
 
 export const getAnalyticsSummary = async (): Promise<AnalyticsSummary> => {
   const cached = await redis.get(CACHE_KEY);
